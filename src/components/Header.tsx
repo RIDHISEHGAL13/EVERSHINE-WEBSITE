@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Search, ShoppingCart, User, Menu, X, LogOut, Crown } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
+import MobileMenuPortal from './MobileMenuPortal';
 
 interface HeaderProps {
   onSearchChange: (search: string) => void;
@@ -121,13 +122,12 @@ export function Header({ onSearchChange, onCategoryChange, onCartClick, onAuthCl
 
         {/* Mobile Navigation Hamburger Dropdown */}
         {isMenuOpen && (
-          <div className="lg:hidden fixed inset-0 z-50 flex">
-            {/* Glassy overlay */}
-            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)} />
-            {/* Glassy drawer */}
+          <MobileMenuPortal>
+            {/* Overlay */}
+            <div className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)} />
+            {/* Drawer */}
             <div
-              className="relative w-4/5 max-w-xs h-full bg-white/60 backdrop-blur-2xl border-r border-white/30 shadow-2xl rounded-tr-3xl rounded-br-3xl flex flex-col justify-between py-10 px-6 animate-slide-in-glass"
-              style={{ zIndex: 60 }}
+              className="fixed top-0 left-0 h-full w-4/5 max-w-xs z-50 bg-white/60 backdrop-blur-2xl border-r border-white/30 shadow-2xl rounded-tr-3xl rounded-br-3xl flex flex-col justify-between py-10 px-6 animate-slide-in-glass"
               onClick={e => e.stopPropagation()}
             >
               {/* Close button */}
@@ -165,7 +165,7 @@ export function Header({ onSearchChange, onCategoryChange, onCartClick, onAuthCl
                 </button>
               </div>
             </div>
-          </div>
+          </MobileMenuPortal>
         )}
       </div>
     </header>
