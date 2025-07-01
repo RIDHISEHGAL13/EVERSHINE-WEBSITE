@@ -42,15 +42,16 @@ export function Header({ onSearchChange, onCategoryChange, onCartClick, onAuthCl
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-gold-100 py-4">
+    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm border-b border-gold-100 py-2">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-32">
+        <div className="flex items-center justify-between h-16">
           {/* Logo on the left */}
-          <div className="flex-shrink-0 flex items-center h-full pr-4 sm:pr-8">
+          <div className="flex-shrink-0 flex items-center h-full pr-4 sm:pr-8 relative" style={{ zIndex: 1 }}>
             <img
               src="https://1e1f49807d.imgdist.com/pub/bfra/cx67fqqt/ukl/noq/ze2/logo.png"
               alt="Logo"
-              className="h-24 w-24 sm:h-36 sm:w-36 object-contain cursor-pointer"
+              className="h-20 w-20 sm:h-24 sm:w-24 object-contain cursor-pointer -my-8"
+              style={{ maxHeight: '96px', maxWidth: '96px' }}
               onClick={() => window.location.reload()}
             />
           </div>
