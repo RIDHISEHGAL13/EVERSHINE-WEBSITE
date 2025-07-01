@@ -47,7 +47,7 @@ export function Header({ onSearchChange, onCategoryChange, onCartClick, onAuthCl
         <div className="flex items-center justify-between h-28">
           {/* Logo on the left */}
           <div className="flex-shrink-0 flex items-center h-full">
-            <img src="/Images/logo.png" alt="Logo" className="h-32 w-32 object-contain cursor-pointer" onClick={() => window.location.reload()} />
+            <img src="https://1e1f49807d.imgdist.com/pub/bfra/cx67fqqt/ukl/noq/ze2/logo.png" alt="Logo" className="h-32 w-32 object-contain cursor-pointer" onClick={() => window.location.reload()} />
           </div>
 
           {/* Centered Navigation */}
