@@ -36,7 +36,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
           <X className="h-5 w-5 text-gray-400" />
         </button>
         <div className="flex flex-col items-center mb-6">
-          <img src="/Images/logo.png" alt="Logo" className="h-16 w-16 mb-2" />
+          <img src="https://1e1f49807d.imgdist.com/pub/bfra/cx67fqqt/ukl/noq/ze2/logo.png" alt="Logo" className="w-24 h-24 object-contain mb-4" />
           <h2 className="text-2xl font-bold font-serif text-gray-900 mb-2">Welcome Back</h2>
           <p className="text-gray-500 mb-4 text-sm">Sign in to your account</p>
         </div>

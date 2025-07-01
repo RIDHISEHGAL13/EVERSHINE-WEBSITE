@@ -451,7 +451,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                       <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
                     </div>
                     <p className="text-sm font-medium text-gray-900">
-                      ${(item.product.price * item.quantity).toFixed(2)}
+                      ₹{(item.product.price * 83 * item.quantity).toLocaleString('en-IN')}
                     </p>
                   </div>
                 ))}
@@ -460,7 +460,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
               <div className="border-t border-gray-200 pt-4 space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Subtotal</span>
-                  <span className="text-gray-900">${total.toFixed(2)}</span>
+                  <span className="text-gray-900">₹{(total * 83).toLocaleString('en-IN')}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Shipping</span>
@@ -468,11 +468,11 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Tax</span>
-                  <span className="text-gray-900">${(total * 0.1).toFixed(2)}</span>
+                  <span className="text-gray-900">₹{(total * 0.1 * 83).toLocaleString('en-IN')}</span>
                 </div>
                 <div className="border-t border-gray-200 pt-2 flex justify-between font-semibold">
                   <span className="text-gray-900">Total</span>
-                  <span className="text-gray-900">${(total * 1.1).toFixed(2)}</span>
+                  <span className="text-gray-900">₹{(total * 1.1 * 83).toLocaleString('en-IN')}</span>
                 </div>
               </div>
             </div>
