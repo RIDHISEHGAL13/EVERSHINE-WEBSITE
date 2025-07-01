@@ -96,11 +96,11 @@ export function ProductModal({ product, isOpen, onClose }: ProductModalProps) {
 
                 <div className="flex items-center space-x-3 mb-6">
                   <span className="text-3xl font-bold text-gray-900">
-                    ${product.price}
+                    ₹{(product.price * 83).toLocaleString('en-IN')}
                   </span>
                   {product.originalPrice && (
                     <span className="text-xl text-gray-500 line-through">
-                      ${product.originalPrice}
+                      ₹{(product.originalPrice * 83).toLocaleString('en-IN')}
                     </span>
                   )}
                   {product.originalPrice && (
