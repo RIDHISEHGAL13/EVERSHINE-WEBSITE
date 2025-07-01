@@ -121,37 +121,47 @@ export function Header({ onSearchChange, onCategoryChange, onCartClick, onAuthCl
 
         {/* Mobile Navigation Hamburger Dropdown */}
         {isMenuOpen && (
-          <div className="lg:hidden fixed inset-0 z-50 bg-black/40" onClick={() => setIsMenuOpen(false)}>
+          <div className="lg:hidden fixed inset-0 z-50 flex">
+            {/* Glassy overlay */}
+            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)} />
+            {/* Glassy drawer */}
             <div
-              className="absolute top-0 left-0 w-4/5 max-w-xs h-full bg-white/30 backdrop-blur-xl border border-white/30 shadow-2xl rounded-tr-3xl rounded-br-3xl flex flex-col pt-8 pb-4 px-6 animate-slide-in-glass"
+              className="relative w-4/5 max-w-xs h-full bg-white/60 backdrop-blur-2xl border-r border-white/30 shadow-2xl rounded-tr-3xl rounded-br-3xl flex flex-col justify-between py-10 px-6 animate-slide-in-glass"
+              style={{ zIndex: 60 }}
               onClick={e => e.stopPropagation()}
             >
-              <div className="flex flex-col space-y-2">
+              {/* Close button */}
+              <button className="absolute top-4 right-4 p-2 rounded-full hover:bg-white/40 transition" onClick={() => setIsMenuOpen(false)} aria-label="Close menu">
+                <X className="h-7 w-7 text-slate-700" />
+              </button>
+              {/* Nav items */}
+              <div className="flex flex-col gap-6 mt-8">
                 {categories.map((category) => (
                   <button
                     key={category.id}
                     onClick={() => handleCategoryClick(category.id)}
-                    className="text-slate-700 hover:text-gold-600 px-2 py-3 text-lg font-medium transition-colors duration-200 relative group text-left"
+                    className="text-slate-800 hover:text-gold-600 px-2 py-3 text-xl font-semibold transition-colors duration-200 relative group text-left rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-400"
                   >
                     {category.name}
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-luxury-gradient group-hover:w-full transition-all duration-300"></span>
                   </button>
                 ))}
               </div>
-              <div className="mt-8 flex flex-col space-y-2 border-t border-slate-200 pt-4">
+              {/* Auth & Cart */}
+              <div className="flex flex-col gap-4 mt-12 border-t border-white/40 pt-8">
                 <button
                   onClick={user ? handleLogout : onAuthClick}
-                  className="flex items-center space-x-2 text-slate-700 hover:text-gold-600 transition-colors duration-200 p-2 rounded-lg hover:bg-gold-50 text-left"
+                  className="flex items-center gap-3 text-slate-800 hover:text-gold-600 transition-colors duration-200 p-3 rounded-lg hover:bg-white/40 text-lg font-medium text-left"
                 >
-                  <User className="h-5 w-5" />
-                  <span className="text-base font-medium">{user ? 'Logout' : 'Login'}</span>
+                  <User className="h-6 w-6" />
+                  {user ? 'Logout' : 'Login'}
                 </button>
                 <button
                   onClick={onCartClick}
-                  className="flex items-center space-x-2 text-slate-700 hover:text-gold-600 transition-colors duration-200 p-2 rounded-lg hover:bg-gold-50 text-left"
+                  className="flex items-center gap-3 text-slate-800 hover:text-gold-600 transition-colors duration-200 p-3 rounded-lg hover:bg-white/40 text-lg font-medium text-left"
                 >
-                  <ShoppingCart className="h-5 w-5" />
-                  <span className="text-base font-medium">Cart{itemCount > 0 ? ` (${itemCount})` : ''}</span>
+                  <ShoppingCart className="h-6 w-6" />
+                  Cart{itemCount > 0 ? ` (${itemCount})` : ''}
                 </button>
               </div>
             </div>
