@@ -48,7 +48,7 @@ export function Header({ onSearchChange, onCategoryChange, onCartClick, onAuthCl
           {/* Logo on the left */}
           <div className="flex-shrink-0 flex items-center h-full pr-4 sm:pr-8 relative" style={{ zIndex: 1 }}>
             <img
-              src="https://1e1f49807d.imgdist.com/pub/bfra/cx67fqqt/ukl/noq/ze2/logo.png"
+              src="https://1e1f49807d.imgdist.com/pub/bfra/cx67fqqt/q7e/0hv/52l/logowithoutbg.png"
               alt="Logo"
               className="h-20 w-20 sm:h-24 sm:w-24 object-contain cursor-pointer -my-8"
               style={{ maxHeight: '96px', maxWidth: '96px' }}
