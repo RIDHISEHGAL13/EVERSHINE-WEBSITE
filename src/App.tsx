@@ -73,7 +73,7 @@ function App() {
               <div className="relative py-16 px-8">
                 <div className="inline-flex items-center bg-luxury-gradient text-white px-4 py-2 rounded-full text-sm font-medium mb-6 animate-float">
                   <Sparkles className="h-4 w-4 mr-2" />
-                  Handcrafted Excellence Since 1892
+                  Handcrafted Excellence Since 2024
                 </div>
                 <h1 className="text-5xl md:text-7xl font-serif font-bold text-slate-900 mb-6 leading-tight">
                   Exquisite{' '}
@@ -208,7 +208,7 @@ function App() {
                     Evershine
                   </h3>
                   <p className="text-slate-300 mb-6 leading-relaxed max-w-md">
-                    Curating the world's finest handicrafts and jewelry since 1892. 
+                    Curating the world's finest handicrafts and jewelry since 2024. 
                     Each piece represents a legacy of artisanal excellence and timeless beauty.
                   </p>
                   <div className="flex space-x-4">
@@ -249,7 +249,7 @@ function App() {
                 </div>
               </div>
               <div className="border-t border-slate-800 mt-12 pt-8 text-center text-slate-400">
-                <p>&copy; 2024 Evershine. All rights reserved. | Crafted with passion since 1892</p>
+                <p>&copy; 2024 Evershine. All rights reserved. | Crafted with passion since 2024</p>
               </div>
             </div>
           </footer>
