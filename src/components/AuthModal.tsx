@@ -50,7 +50,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               onChange={e => setEmail(e.target.value)}
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500"
-              placeholder="Enter your email"
+              placeholder="john@example.com"
             />
           </div>
           <div>
@@ -62,7 +62,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               onChange={e => setPassword(e.target.value)}
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500"
-              placeholder="Enter your password"
+              placeholder="password123"
             />
           </div>
           {error && <div className="text-red-600 text-sm text-center">{error}</div>}
