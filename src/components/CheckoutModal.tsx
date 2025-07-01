@@ -23,11 +23,13 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
     cardNumber: '',
     expiryDate: '',
     cvv: '',
-    cardName: ''
+    cardName: '',
+    upiId: ''
   });
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [paymentMethod, setPaymentMethod] = useState<'Card' | 'UPI' | 'COD'>('Card');
 
   const { items, total, clearCart } = useCart();
   const { user } = useAuth();
@@ -49,20 +51,24 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
 
   const validatePayment = () => {
     const newErrors: Record<string, string> = {};
-    
-    if (!paymentData.cardNumber.replace(/\s/g, '').match(/^\d{16}$/)) {
-      newErrors.cardNumber = 'Please enter a valid 16-digit card number';
+    if (paymentMethod === 'Card') {
+      if (!paymentData.cardNumber.replace(/\s/g, '').match(/^\d{16}$/)) {
+        newErrors.cardNumber = 'Please enter a valid 16-digit card number';
+      }
+      if (!paymentData.expiryDate.match(/^(0[1-9]|1[0-2])\/\d{2}$/)) {
+        newErrors.expiryDate = 'Please enter expiry date in MM/YY format';
+      }
+      if (!paymentData.cvv.match(/^\d{3,4}$/)) {
+        newErrors.cvv = 'Please enter a valid CVV';
+      }
+      if (!paymentData.cardName.trim()) {
+        newErrors.cardName = 'Cardholder name is required';
+      }
+    } else if (paymentMethod === 'UPI') {
+      if (!paymentData.upiId || !/^\S+@\S+$/.test(paymentData.upiId)) {
+        newErrors.upiId = 'Please enter a valid UPI ID';
+      }
     }
-    if (!paymentData.expiryDate.match(/^(0[1-9]|1[0-2])\/\d{2}$/)) {
-      newErrors.expiryDate = 'Please enter expiry date in MM/YY format';
-    }
-    if (!paymentData.cvv.match(/^\d{3,4}$/)) {
-      newErrors.cvv = 'Please enter a valid CVV';
-    }
-    if (!paymentData.cardName.trim()) {
-      newErrors.cardName = 'Cardholder name is required';
-    }
-    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -300,6 +306,7 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                         <option value="Canada">Canada</option>
                         <option value="United Kingdom">United Kingdom</option>
                         <option value="Australia">Australia</option>
+                        <option value="India">India</option>
                       </select>
                     </div>
                   </div>
@@ -307,88 +314,115 @@ export function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
               ) : (
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 mb-6">Payment Information</h2>
-                  
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
+                    <select
+                      name="paymentMethod"
+                      value={paymentMethod}
+                      onChange={e => setPaymentMethod(e.target.value as 'Card' | 'UPI' | 'COD')}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="Card">Credit/Debit Card</option>
+                      <option value="UPI">UPI</option>
+                      <option value="COD">Cash on Delivery (COD)</option>
+                    </select>
+                  </div>
                   <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Card Number
-                      </label>
-                      <div className="relative">
-                        <input
-                          type="text"
-                          name="cardNumber"
-                          value={paymentData.cardNumber}
-                          onChange={(e) => handleInputChange(e, 'payment')}
-                          placeholder="1234 5678 9012 3456"
-                          maxLength={19}
-                          className={`w-full px-3 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                            errors.cardNumber ? 'border-red-300' : 'border-gray-300'
-                          }`}
-                        />
-                        <CreditCard className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-                      </div>
-                      {errors.cardNumber && (
-                        <p className="text-red-500 text-xs mt-1">{errors.cardNumber}</p>
-                      )}
-                    </div>
-                    
-                    <div className="grid grid-cols-2 gap-4">
+                    {paymentMethod === 'Card' && (
+                      <>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Card Number
+                          </label>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              name="cardNumber"
+                              value={paymentData.cardNumber}
+                              onChange={e => handleInputChange(e, 'payment')}
+                              placeholder="1234 5678 9012 3456"
+                              maxLength={19}
+                              className={`w-full px-3 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.cardNumber ? 'border-red-300' : 'border-gray-300'}`}
+                            />
+                            <CreditCard className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+                          </div>
+                          {errors.cardNumber && (
+                            <p className="text-red-500 text-xs mt-1">{errors.cardNumber}</p>
+                          )}
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              Expiry Date
+                            </label>
+                            <input
+                              type="text"
+                              name="expiryDate"
+                              value={paymentData.expiryDate}
+                              onChange={e => handleInputChange(e, 'payment')}
+                              placeholder="MM/YY"
+                              maxLength={5}
+                              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.expiryDate ? 'border-red-300' : 'border-gray-300'}`}
+                            />
+                            {errors.expiryDate && (
+                              <p className="text-red-500 text-xs mt-1">{errors.expiryDate}</p>
+                            )}
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              CVV
+                            </label>
+                            <input
+                              type="text"
+                              name="cvv"
+                              value={paymentData.cvv}
+                              onChange={e => handleInputChange(e, 'payment')}
+                              placeholder="123"
+                              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.cvv ? 'border-red-300' : 'border-gray-300'}`}
+                            />
+                            {errors.cvv && (
+                              <p className="text-red-500 text-xs mt-1">{errors.cvv}</p>
+                            )}
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Cardholder Name
+                          </label>
+                          <input
+                            type="text"
+                            name="cardName"
+                            value={paymentData.cardName}
+                            onChange={e => handleInputChange(e, 'payment')}
+                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.cardName ? 'border-red-300' : 'border-gray-300'}`}
+                          />
+                          {errors.cardName && (
+                            <p className="text-red-500 text-xs mt-1">{errors.cardName}</p>
+                          )}
+                        </div>
+                      </>
+                    )}
+                    {paymentMethod === 'UPI' && (
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Expiry Date
-                        </label>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">UPI ID</label>
                         <input
                           type="text"
-                          name="expiryDate"
-                          value={paymentData.expiryDate}
-                          onChange={(e) => handleInputChange(e, 'payment')}
-                          placeholder="MM/YY"
-                          maxLength={5}
-                          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                            errors.expiryDate ? 'border-red-300' : 'border-gray-300'
-                          }`}
+                          name="upiId"
+                          value={paymentData.upiId || ''}
+                          onChange={e => handleInputChange(e, 'payment')}
+                          placeholder="example@upi"
+                          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.upiId ? 'border-red-300' : 'border-gray-300'}`}
                         />
-                        {errors.expiryDate && (
-                          <p className="text-red-500 text-xs mt-1">{errors.expiryDate}</p>
+                        {errors.upiId && (
+                          <p className="text-red-500 text-xs mt-1">{errors.upiId}</p>
                         )}
                       </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          CVV
-                        </label>
-                        <input
-                          type="text"
-                          name="cvv"
-                          value={paymentData.cvv}
-                          onChange={(e) => handleInputChange(e, 'payment')}
-                          placeholder="123"
-                          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                            errors.cvv ? 'border-red-300' : 'border-gray-300'
-                          }`}
-                        />
-                        {errors.cvv && (
-                          <p className="text-red-500 text-xs mt-1">{errors.cvv}</p>
-                        )}
+                    )}
+                    {paymentMethod === 'COD' && (
+                      <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg text-yellow-800">
+                        You will pay with cash when your order is delivered.
                       </div>
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Cardholder Name
-                      </label>
-                      <input
-                        type="text"
-                        name="cardName"
-                        value={paymentData.cardName}
-                        onChange={(e) => handleInputChange(e, 'payment')}
-                        className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                          errors.cardName ? 'border-red-300' : 'border-gray-300'
-                        }`}
-                      />
-                      {errors.cardName && (
-                        <p className="text-red-500 text-xs mt-1">{errors.cardName}</p>
-                      )}
-                    </div>
+                    )}
                   </div>
                   
                   <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-center">
