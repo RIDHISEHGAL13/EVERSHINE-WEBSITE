@@ -5,7 +5,7 @@ import { ProductModal } from './components/ProductModal';
 import { Cart } from './components/Cart';
 import { AuthModal } from './components/AuthModal';
 import { CheckoutModal } from './components/CheckoutModal';
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
 import { products } from './data/products';
 import { Product } from './types';
@@ -19,6 +19,11 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const productsSectionRef = useRef<HTMLDivElement>(null);
+  const { user } = useAuth();
+
+  React.useEffect(() => {
+    setIsAuthModalOpen(!user);
+  }, [user]);
 
   // Filter products based on search term and category
   const filteredProducts = products.filter(product => {
