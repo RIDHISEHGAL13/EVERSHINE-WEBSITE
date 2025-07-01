@@ -32,7 +32,7 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
         />
         {product.originalPrice && (
           <div className="absolute top-4 left-4 bg-rose-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
-            Save ₹{((product.originalPrice - product.price) * 83).toLocaleString('en-IN')}
+            Save ₹{(product.originalPrice - product.price).toLocaleString('en-IN')}
           </div>
         )}
         {!product.inStock && (

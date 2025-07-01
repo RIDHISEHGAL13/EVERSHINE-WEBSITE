@@ -3,33 +3,26 @@ import { Product } from '../types';
 export const products: Product[] = [
   {
     id: '1',
-    name: 'Royal Emerald Necklace',
-    price: 2899,
-    originalPrice: 3299,
-    image: 'https://images.pexels.com/photos/1454171/pexels-photo-1454171.jpeg?auto=compress&cs=tinysrgb&w=800',
+    name: 'Halo golden frame hoops',
+    price: 649,
+    originalPrice: 749,
+    image: 'https://minis-media-assets.swiggy.com/swiggymini/image/upload/w_256,h_256,c_fit,fl_lossy,q_auto:eco,f_auto/IMAGE/b3a4d236-14c5-4649-89d1-d4420bd7b10a/lNLO5sDDoD-XBGnYC5d9C-06E589FD-9E35-453C-A17A-6E7CDF459399.jpg',
     images: [
-      'https://images.pexels.com/photos/1454171/pexels-photo-1454171.jpeg?auto=compress&cs=tinysrgb&w=800',
-      'https://images.pexels.com/photos/1454172/pexels-photo-1454172.jpeg?auto=compress&cs=tinysrgb&w=800'
+      'https://minis-media-assets.swiggy.com/swiggymini/image/upload/w_256,h_256,c_fit,fl_lossy,q_auto:eco,f_auto/IMAGE/b3a4d236-14c5-4649-89d1-d4420bd7b10a/lNLO5sDDoD-XBGnYC5d9C-06E589FD-9E35-453C-A17A-6E7CDF459399.jpg'
     ],
-    description: 'Exquisite handcrafted necklace featuring genuine emeralds set in 18k gold. Each stone is carefully selected for its exceptional clarity and vibrant color.',
-    category: 'necklaces',
+    description: 'Elegant golden hoops with a halo frame design.',
+    category: 'earrings',
     brand: 'Evershine',
-    rating: 4.9,
-    reviews: 127,
+    rating: 4.5,
+    reviews: 10,
     inStock: true,
     features: [
-      '18k Gold Setting',
-      'Genuine Emerald Stones',
-      'Handcrafted by Master Artisans',
-      'Certificate of Authenticity',
-      'Lifetime Warranty'
+      'Halo frame',
+      'Gold finish'
     ],
     specifications: {
-      'Material': '18k Gold, Emerald',
-      'Length': '18 inches',
-      'Stone Count': '7 emeralds',
-      'Stone Weight': '12 carats total',
-      'Clasp': 'Secure lobster clasp'
+      'Material': 'Gold plated',
+      'Weight': '10g'
     }
   },
   {
