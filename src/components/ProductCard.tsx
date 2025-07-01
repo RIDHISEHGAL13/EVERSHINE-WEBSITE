@@ -77,11 +77,11 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <span className="text-2xl font-serif font-bold text-slate-900">
-              ₹{(product.price * 83).toLocaleString('en-IN')}
+              ₹{product.price.toLocaleString('en-IN')}
             </span>
             {product.originalPrice && (
               <span className="text-sm text-slate-500 line-through">
-                ₹{(product.originalPrice * 83).toLocaleString('en-IN')}
+                ₹{product.originalPrice.toLocaleString('en-IN')}
               </span>
             )}
           </div>
