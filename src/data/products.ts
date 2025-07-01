@@ -238,7 +238,23 @@ export const products: Product[] = [
       'Bill Compartments': '2',
       'Color': 'Rich Brown'
     }
-  }
+  },
+  // Add placeholder products up to 38
+  ...Array.from({ length: 30 }, (_, i) => ({
+    id: `${i + 9}`,
+    name: `Placeholder Product ${i + 9}`,
+    price: 999 + i * 10,
+    image: 'https://via.placeholder.com/400x400?text=Product',
+    images: ['https://via.placeholder.com/400x400?text=Product'],
+    description: 'This is a placeholder product description.',
+    category: 'accessories',
+    brand: 'Evershine',
+    rating: 4.5,
+    reviews: 10 + i,
+    inStock: true,
+    features: ['Feature 1', 'Feature 2'],
+    specifications: { 'Material': 'Mixed', 'Weight': '100g' }
+  }))
 ];
 
 export const categories = [
