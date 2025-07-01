@@ -9,7 +9,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
 import { products } from './data/products';
 import { Product } from './types';
-import { Sparkles, Award, Shield, Truck } from 'lucide-react';
+import { Sparkles, Award, Shield, Truck, ArrowUp } from 'lucide-react';
 
 function App() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -20,10 +20,19 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const productsSectionRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
+  const [showScrollTop, setShowScrollTop] = React.useState(false);
 
   React.useEffect(() => {
     setIsAuthModalOpen(!user);
   }, [user]);
+
+  React.useEffect(() => {
+    const onScroll = () => setShowScrollTop(window.scrollY > 200);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const handleScrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   // Filter products based on search term and category
   const filteredProducts = products.filter(product => {
@@ -277,6 +286,16 @@ function App() {
             onClose={() => setIsCheckoutOpen(false)}
           />
         </div>
+        {/* Scroll to Top Button */}
+        {showScrollTop && (
+          <button
+            onClick={handleScrollTop}
+            className="fixed bottom-8 right-8 z-50 bg-gradient-to-tr from-gold-400 to-rose-400 text-white p-4 rounded-full shadow-xl hover:scale-110 hover:rotate-12 hover:shadow-2xl transition-all duration-300 group"
+            aria-label="Scroll to top"
+          >
+            <ArrowUp className="h-7 w-7 group-hover:animate-bounce" />
+          </button>
+        )}
       </CartProvider>
     </AuthProvider>
   );
