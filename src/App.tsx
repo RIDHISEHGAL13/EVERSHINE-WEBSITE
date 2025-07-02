@@ -10,7 +10,7 @@ import { useAuth } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
 import { products } from './data/products';
 import { Product } from './types';
-import { Sparkles, Award, Shield, Truck, ArrowUp } from 'lucide-react';
+import { Sparkles, Award, Shield, Truck, ArrowUp, Settings } from 'lucide-react';
 
 function App() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -72,14 +72,7 @@ function App() {
     setIsCheckoutOpen(true);
   };
 
-  // --- ADMIN DASHBOARD ONLY FOR ADMIN ---
-  if (user?.isAdmin === true) {
-    return (
-      <AdminPanel isOpen={true} onClose={() => {}} />
-    );
-  }
-
-  // --- REGULAR WEBSITE FOR ALL OTHER USERS ---
+  // --- WEBSITE FOR ALL USERS (INCLUDING ADMIN) ---
   return (
       <CartProvider>
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-gold-50">
@@ -295,7 +288,29 @@ function App() {
             isOpen={isCheckoutOpen}
             onClose={() => setIsCheckoutOpen(false)}
           />
+
+          {/* Admin Panel Modal */}
+          <AdminPanel
+            isOpen={isAdminPanelOpen}
+            onClose={() => setIsAdminPanelOpen(false)}
+          />
         </div>
+
+        {/* Admin Settings Gear Icon - Only visible for admin users when dashboard is closed */}
+        {user?.isAdmin && (
+          <button
+            onClick={() => setIsAdminPanelOpen(true)}
+            className={`fixed bottom-8 left-8 z-50 bg-gradient-to-tr from-slate-700 to-slate-900 text-white p-4 rounded-full shadow-xl hover:scale-110 hover:shadow-2xl transition-all duration-500 ease-out group border-2 border-gold-400 ${
+              isAdminPanelOpen 
+                ? 'opacity-0 scale-50 -translate-y-4 pointer-events-none' 
+                : 'opacity-100 scale-100 translate-y-0'
+            }`}
+            aria-label="Admin Settings"
+          >
+            <Settings className="h-7 w-7 group-hover:rotate-90 transition-transform duration-300" />
+          </button>
+        )}
+
         {/* Scroll to Top Button */}
         {showScrollTop && (
           <button

@@ -570,9 +570,18 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
-      <div className="absolute inset-0 bg-black bg-opacity-50" onClick={onClose}></div>
-      <div className="relative h-full flex">
+    <div className={`fixed inset-0 z-50 overflow-hidden transition-all duration-500 ease-out ${
+      isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+    }`}>
+      <div 
+        className={`absolute inset-0 bg-black transition-all duration-500 ease-out ${
+          isOpen ? 'bg-opacity-60' : 'bg-opacity-0'
+        }`} 
+        onClick={onClose}
+      ></div>
+      <div className={`relative h-full flex transition-all duration-500 ease-out ${
+        isOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}>
         {/* Sidebar */}
         <div className="w-64 bg-gradient-to-b from-slate-900 to-slate-800 shadow-xl flex flex-col">
           <div className="flex items-center justify-between p-6 border-b border-slate-700">
