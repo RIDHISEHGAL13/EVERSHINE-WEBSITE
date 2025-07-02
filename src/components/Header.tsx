@@ -100,13 +100,40 @@ export function Header({ onSearchChange, onCategoryChange, onCartClick, onAuthCl
                 <Search className="h-6 w-6 sm:h-7 sm:w-7 text-slate-400" />
               </button>
             )}
-            <button
-              onClick={user ? undefined : onAuthClick}
-              className="flex items-center space-x-1 sm:space-x-2 text-slate-700 hover:text-gold-600 transition-colors duration-200 p-2 rounded-lg hover:bg-gold-50"
-            >
-              <User className="h-5 w-5 sm:h-6 sm:w-6" />
-              {user && <span className="hidden sm:block text-xs sm:text-sm font-medium">{user.name}</span>}
-            </button>
+            <div className="relative group">
+              <button
+                onClick={user ? undefined : onAuthClick}
+                className="flex items-center space-x-1 sm:space-x-2 text-slate-700 hover:text-gold-600 transition-colors duration-200 p-2 rounded-lg hover:bg-gold-50"
+              >
+                <User className="h-5 w-5 sm:h-6 sm:w-6" />
+                {user && <span className="hidden sm:block text-xs sm:text-sm font-medium">{user.name}</span>}
+              </button>
+              
+              {/* Profile Dropdown - Only show for logged in users */}
+              {user && (
+                <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="py-2">
+                    <div className="px-4 py-2 border-b border-gray-100">
+                      <p className="text-sm font-medium text-gray-900">{user.name}</p>
+                      <p className="text-xs text-gray-500">{user.email}</p>
+                      {user.isAdmin && (
+                        <div className="flex items-center mt-1">
+                          <Crown className="h-3 w-3 text-yellow-500 mr-1" />
+                          <span className="text-xs text-yellow-600 font-medium">Admin</span>
+                        </div>
+                      )}
+                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-red-600 transition-colors"
+                    >
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
             <button
               onClick={onCartClick}
               className="relative p-2 text-slate-700 hover:text-gold-600 transition-colors duration-200 rounded-lg hover:bg-gold-50"

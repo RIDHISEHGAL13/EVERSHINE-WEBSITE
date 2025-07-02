@@ -3,6 +3,10 @@ import { User, AuthContextType } from '../types';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Admin credentials
+const ADMIN_EMAIL = "admin@evershine.com";
+const ADMIN_PASSWORD = "evershine123";
+
 // Mock users for demo
 const mockUsers = [
   { id: '1', name: 'John Doe', email: 'john@example.com', password: 'password123' },
@@ -17,7 +21,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Check for stored user session
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        console.log('Stored user:', parsedUser);
+        setUser(parsedUser);
+      } catch (error) {
+        console.error('Error parsing stored user:', error);
+        localStorage.removeItem('user');
+      }
     }
     setIsLoading(false);
   }, []);
@@ -28,13 +39,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
     
+    // Check for admin login
+    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+      const adminUser: User = {
+        id: 'admin-1',
+        name: 'Admin User',
+        email: ADMIN_EMAIL,
+        isAdmin: true
+      };
+      setUser(adminUser);
+      localStorage.setItem('user', JSON.stringify(adminUser));
+      setIsLoading(false);
+      return true;
+    }
+    
+    // Check for regular users
     const mockUser = mockUsers.find(u => u.email === email && u.password === password);
     
     if (mockUser) {
       const user: User = {
         id: mockUser.id,
         name: mockUser.name,
-        email: mockUser.email
+        email: mockUser.email,
+        isAdmin: false
       };
       setUser(user);
       localStorage.setItem('user', JSON.stringify(user));
@@ -61,7 +88,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const newUser: User = {
       id: Date.now().toString(),
       name,
-      email
+      email,
+      isAdmin: false
     };
     
     // Add to mock users
@@ -76,6 +104,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
+    // Force clear any cached user data
+    sessionStorage.clear();
   };
 
   const value: AuthContextType = {

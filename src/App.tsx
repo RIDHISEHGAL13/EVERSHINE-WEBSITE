@@ -5,7 +5,8 @@ import { ProductModal } from './components/ProductModal';
 import { Cart } from './components/Cart';
 import { AuthModal } from './components/AuthModal';
 import { CheckoutModal } from './components/CheckoutModal';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { AdminPanel } from './components/AdminPanel';
+import { useAuth } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
 import { products } from './data/products';
 import { Product } from './types';
@@ -16,11 +17,18 @@ function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const productsSectionRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
   const [showScrollTop, setShowScrollTop] = React.useState(false);
+
+  // Debug logging
+  React.useEffect(() => {
+    console.log('Current user:', user);
+    console.log('Is admin?', user?.isAdmin);
+  }, [user]);
 
   React.useEffect(() => {
     setIsAuthModalOpen(!user);
@@ -64,8 +72,15 @@ function App() {
     setIsCheckoutOpen(true);
   };
 
+  // --- ADMIN DASHBOARD ONLY FOR ADMIN ---
+  if (user?.isAdmin === true) {
+    return (
+      <AdminPanel isOpen={true} onClose={() => {}} />
+    );
+  }
+
+  // --- REGULAR WEBSITE FOR ALL OTHER USERS ---
   return (
-    <AuthProvider>
       <CartProvider>
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-gold-50">
           <Header
@@ -292,7 +307,6 @@ function App() {
           </button>
         )}
       </CartProvider>
-    </AuthProvider>
   );
 }
 
