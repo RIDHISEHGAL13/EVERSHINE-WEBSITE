@@ -94,7 +94,7 @@ function App() {
                 </div>
                 <h1 className="text-5xl md:text-7xl font-serif font-bold text-slate-900 mb-6 leading-tight">
                   Exquisite{' '}
-                  <span className="bg-luxury-gradient bg-clip-text text-transparent">
+                  <span className="bg-luxury-gradient bg-clip-text text-transparent italic font-serif">
                     Handicrafts
                   </span>
                   <br />
