@@ -19,7 +19,8 @@ import {
   UserCheck,
   AlertCircle,
   Crown,
-  LogOut
+  LogOut,
+  Menu
 } from 'lucide-react';
 import { Product, Order } from '../types';
 import { ProductForm } from './ProductForm';
@@ -42,6 +43,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [isOrderDetailsOpen, setIsOrderDetailsOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -582,8 +584,35 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
       <div className={`relative h-full flex flex-col lg:flex-row transition-all duration-500 ease-out ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
-        {/* Sidebar */}
-        <div className="w-full lg:w-64 bg-gradient-to-b from-slate-900 to-slate-800 shadow-xl flex flex-col">
+        {/* Header for mobile with hamburger */}
+        <div className="flex lg:hidden items-center justify-between p-4 border-b border-slate-700 bg-gradient-to-b from-slate-900 to-slate-800">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <Crown className="h-5 w-5 text-white" />
+            </div>
+            <h1 className="text-xl font-bold text-white">Admin Dashboard</h1>
+          </div>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => setMobileNavOpen(true)}
+              className="text-slate-400 hover:text-white transition-colors focus:outline-none"
+              aria-label="Open navigation menu"
+            >
+              <Menu className="h-7 w-7" />
+            </button>
+            <button
+              onClick={onClose}
+              className="text-slate-400 hover:text-white transition-colors ml-2 focus:outline-none"
+              aria-label="Close admin panel"
+            >
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        {/* Sidebar for desktop */}
+        <div className="hidden lg:flex w-64 bg-gradient-to-b from-slate-900 to-slate-800 shadow-xl flex-col">
           <div className="flex items-center justify-between p-6 border-b border-slate-700">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
@@ -647,7 +676,75 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
             </button>
           </div>
         </div>
-        
+        {/* Mobile Drawer Navigation */}
+        {mobileNavOpen && (
+          <div className="fixed inset-0 z-50 flex lg:hidden">
+            <div className="absolute inset-0 bg-black bg-opacity-40 transition-opacity duration-300" onClick={() => setMobileNavOpen(false)}></div>
+            <div className="relative w-64 max-w-[80vw] h-full bg-gradient-to-b from-slate-900 to-slate-800 shadow-2xl flex flex-col animate-slideInLeft">
+              <div className="flex items-center justify-between p-6 border-b border-slate-700">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <Crown className="h-5 w-5 text-white" />
+                  </div>
+                  <h1 className="text-xl font-bold text-white">Admin</h1>
+                </div>
+                <button
+                  onClick={() => setMobileNavOpen(false)}
+                  className="text-slate-400 hover:text-white transition-colors"
+                  aria-label="Close navigation menu"
+                >
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              <nav className="flex-1 p-4 overflow-y-auto">
+                <ul className="space-y-2">
+                  {navigationItems.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <li key={item.id}>
+                        <button
+                          onClick={() => { setActiveSection(item.id as AdminSection); setMobileNavOpen(false); }}
+                          className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-all duration-200 ${
+                            activeSection === item.id
+                              ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                              : 'text-slate-300 hover:bg-slate-700 hover:text-white'
+                          }`}
+                        >
+                          <Icon className="h-5 w-5" />
+                          <span className="font-medium">{item.label}</span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </nav>
+              <div className="p-4 border-t border-slate-700">
+                <div className="flex items-center space-x-3 p-3 bg-slate-700/50 rounded-lg border border-slate-600 mb-3">
+                  <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                    <Crown className="h-4 w-4 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-white">Admin User</p>
+                    <p className="text-xs text-slate-300">admin@evershine.com</p>
+                    <div className="flex items-center mt-1">
+                      <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+                      <span className="text-xs text-green-400">Online</span>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-all duration-200 text-slate-300 hover:bg-red-600 hover:text-white"
+                >
+                  <LogOut className="h-5 w-5" />
+                  <span className="font-medium">Logout</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
         {/* Main Content */}
         <div className="flex-1 bg-gradient-to-br from-slate-50 to-blue-50 overflow-auto">
           <div className="p-4 lg:p-8">
