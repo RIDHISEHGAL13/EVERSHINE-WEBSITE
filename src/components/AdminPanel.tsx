@@ -79,7 +79,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
 
   const renderDashboard = () => (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
         <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white shadow-lg border border-blue-500/20">
           <div className="flex items-center justify-between">
             <div>
@@ -133,8 +133,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
+        <div className="bg-white rounded-xl p-4 lg:p-6 shadow-sm border border-gray-200">
           <h3 className="text-lg font-semibold mb-4">Recent Orders</h3>
           <div className="space-y-3">
             {[1, 2, 3, 4, 5].map((i) => (
@@ -160,7 +160,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+        <div className="bg-white rounded-xl p-4 lg:p-6 shadow-sm border border-gray-200">
           <h3 className="text-lg font-semibold mb-4">Low Stock Alerts</h3>
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
@@ -186,7 +186,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
   const renderProducts = () => (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div className="flex items-center space-x-4">
+        <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <input
@@ -579,11 +579,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
         }`} 
         onClick={onClose}
       ></div>
-      <div className={`relative h-full flex transition-all duration-500 ease-out ${
+      <div className={`relative h-full flex flex-col lg:flex-row transition-all duration-500 ease-out ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
         {/* Sidebar */}
-        <div className="w-64 bg-gradient-to-b from-slate-900 to-slate-800 shadow-xl flex flex-col">
+        <div className="w-full lg:w-64 bg-gradient-to-b from-slate-900 to-slate-800 shadow-xl flex flex-col">
           <div className="flex items-center justify-between p-6 border-b border-slate-700">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
@@ -602,21 +602,21 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
           </div>
           
           <nav className="flex-1 p-4">
-            <ul className="space-y-2">
+            <ul className="grid grid-cols-2 lg:grid-cols-1 gap-2">
               {navigationItems.map((item) => {
                 const Icon = item.icon;
                 return (
                   <li key={item.id}>
                     <button
                       onClick={() => setActiveSection(item.id as AdminSection)}
-                      className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-all duration-200 ${
+                      className={`w-full flex flex-col lg:flex-row lg:items-center lg:space-x-3 px-3 lg:px-4 py-3 rounded-lg text-center lg:text-left transition-all duration-200 ${
                         activeSection === item.id
                           ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
                           : 'text-slate-300 hover:bg-slate-700 hover:text-white'
                       }`}
                     >
-                      <Icon className="h-5 w-5" />
-                      <span className="font-medium">{item.label}</span>
+                      <Icon className="h-5 w-5 mx-auto lg:mx-0 mb-1 lg:mb-0" />
+                      <span className="font-medium text-sm lg:text-base">{item.label}</span>
                     </button>
                   </li>
                 );
@@ -625,7 +625,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
           </nav>
           
           <div className="p-4 border-t border-slate-700">
-            <div className="flex items-center space-x-3 p-3 bg-slate-700/50 rounded-lg border border-slate-600 mb-3">
+            <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 p-3 bg-slate-700/50 rounded-lg border border-slate-600 mb-3">
               <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                 <Crown className="h-4 w-4 text-white" />
               </div>
@@ -650,12 +650,12 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ isOpen, onClose }) => {
         
         {/* Main Content */}
         <div className="flex-1 bg-gradient-to-br from-slate-50 to-blue-50 overflow-auto">
-          <div className="p-8">
+          <div className="p-4 lg:p-8">
             <div className="mb-6">
-              <h1 className="text-3xl font-bold text-slate-900 mb-2">
+              <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 mb-2">
                 Welcome back, Admin! 👋
               </h1>
-              <p className="text-slate-600">
+              <p className="text-slate-600 text-sm lg:text-base">
                 Manage your Evershine jewelry store from this comprehensive dashboard.
               </p>
             </div>
